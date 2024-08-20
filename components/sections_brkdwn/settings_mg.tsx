@@ -61,6 +61,29 @@ export default function SettingsManagement({
 		}
 	}
 
+	function runTest() {
+		fetch("/api/send", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				firstName: "John",
+			}),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.error) {
+					toast.error("An error occurred, please try again");
+				} else {
+					toast.success("Test email sent successfully");
+				}
+			})
+			.catch((error) => {
+				toast.error("An error occurred, please try again");
+			});
+	}
+
 	return (
 		<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 			<DialogTrigger asChild>
@@ -132,6 +155,7 @@ export default function SettingsManagement({
 						<Button
 							variant="link"
 							className="text-blue-500 bg-blue-50 group"
+							onClick={runTest}
 						>
 							<FlaskConical className="mr-2 md:h-4 md:w-4 group-hover:scale-125 transition duration-300" />
 							Just run a test
