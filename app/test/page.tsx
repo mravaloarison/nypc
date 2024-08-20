@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,54 @@ interface Recipient {
 export default function Test() {
 	const [listOfRexipients, setListOfRecipients] = useState<Recipient[]>([]);
 	const [emailInserted, setEmailInserted] = useState("");
+	const [countDown, setCountDown] = useState("");
+	const [timeSet, setTimeSet] = useState("9:00 AM");
+
+	useEffect(() => {
+		const { hours, minutes, seconds } = calculateTimeLeft(
+			convertTimeToMiliseconds(timeSet),
+			new Date().getTime()
+		);
+
+		const interval = setInterval(() => {
+			setCountDown(`${hours} hrs - ${minutes} min - ${seconds} sec`);
+		}, 1000);
+
+		// TODO: Send quotes to recipients when time is up
+
+		return () => clearInterval(interval);
+	});
+
+	function convertTimeToMiliseconds(timeString: string) {
+		const [time, period] = timeString.split(" ");
+		const [hours, minutes] = time.split(":");
+		let parsedHours = parseInt(hours);
+		const parsedMinutes = parseInt(minutes);
+
+		if (isNaN(parsedHours) || isNaN(parsedMinutes)) {
+			throw new Error("Invalid time format");
+		}
+
+		if (period === "PM") {
+			parsedHours = parsedHours + 12;
+		}
+
+		const date = new Date();
+		date.setHours(parsedHours, parsedMinutes, 0, 0);
+
+		return date.getTime();
+	}
+
+	function calculateTimeLeft(nextQuoteTime: number, actualTime: number) {
+		const timeLeft = nextQuoteTime - actualTime;
+		const hours = Math.floor(
+			(timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+		);
+		const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+		const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+		return { hours, minutes, seconds };
+	}
 
 	function addNewRecipient() {
 		if (emailInserted === "") {
@@ -114,13 +162,16 @@ export default function Test() {
 			</div>
 
 			<div className="flex flex-col items-center justify-center gap-4 pt-12">
-				<p>Next Quotes will be sent in:</p>
+				<p> Next Quotes will be sent in:</p>
 				<h1 className="font-semibold text-xl md:text-3xl text-slate-700">
-					00 hrs - 00 min - 00 sec
+					<span className="p-4">⏰</span> {countDown}
 				</h1>
 			</div>
 
-			<SettingsManagement />
+			<SettingsManagement
+				time={timeSet}
+				updateTime={(newTime) => setTimeSet(newTime)}
+			/>
 		</main>
 	);
 }
