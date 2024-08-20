@@ -9,6 +9,7 @@ import { PlusCircle } from "lucide-react";
 import ListOfRecipients from "@/components/sections_brkdwn/list_of_recipients";
 import SettingsManagement from "@/components/sections_brkdwn/settings_mg";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Recipient {
 	email: string;
@@ -163,8 +164,13 @@ export default function Test() {
 
 			<div className="flex flex-col items-center justify-center gap-4 pt-12">
 				<p> Next Quotes will be sent in:</p>
-				<h1 className="font-semibold text-xl md:text-3xl text-slate-700">
-					<span className="p-4">⏰</span> {countDown}
+				<h1 className="font-semibold text-xl md:text-3xl text-slate-700 flex items-center gap-4">
+					<span>⏰</span>{" "}
+					{countDown ? (
+						countDown
+					) : (
+						<Skeleton className="md:w-80 w-56 rounded-lg h-10" />
+					)}
 				</h1>
 			</div>
 
