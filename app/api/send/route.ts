@@ -12,8 +12,8 @@ export async function POST(req: NextRequest) {
   
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Quote of the Day <admin@mravaloarison.tech>',
-      to: ['mravaloarison@gmail.com'],
+      from: 'Scripture <admin@mravaloarison.tech>',
+      to: ['haricovera@gmail.com'],
       subject: heading,
       react: EmailTemplate({ scripturePsg: passage, scriptureRef: passageRef }),
     });

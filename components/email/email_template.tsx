@@ -3,12 +3,10 @@ import * as React from "react";
 import {
 	Body,
 	Container,
-	Column,
 	Head,
 	Hr,
 	Html,
 	Preview,
-	Row,
 	Section,
 	Text,
 } from "@react-email/components";
@@ -25,18 +23,12 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
 }) => (
 	<Html>
 		<Head />
-		<Preview>Today's scripture</Preview>
+		<Preview>Today's QT</Preview>
 		<Body style={main}>
 			<Container style={container}>
-				<Section>
-					<Row>
-						<Column></Column>
-					</Row>
-				</Section>
-
 				<Section style={paragraphContent}>
 					<Hr style={hr} />
-					<Text style={heading}>🔔 Today's scripture</Text>
+					<Text style={heading}>🔔 Today's QT</Text>
 					<Text style={paragraph}>
 						<b>{scriptureRef}</b>
 					</Text>
