@@ -91,10 +91,10 @@ export default function SettingsManagement() {
 					<div className="flex justify-between w-full">
 						<Button
 							variant="secondary"
-							className="text-orange-500 bg-orange-50"
+							className="text-indigo-500 bg-indigo-50"
 						>
 							<FlaskConical className="mr-2 h-4 w-4" />
-							Test!
+							Run a test!
 						</Button>
 						<Button>
 							<Save className="mr-2 h-4 w-4" />

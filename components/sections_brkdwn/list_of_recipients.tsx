@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Edit, Trash2 } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -11,32 +9,22 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import DeleteRecipient from "./delete_rcpt";
+import UpdateRecipient from "./update_rcpt";
 
 interface Recipient {
 	email: string;
 	addedAt: string;
 }
 
-const IconButton = ({
-	children,
-	color,
-}: {
-	children: React.ReactNode;
-	color: string;
-}) => (
-	<Button
-		variant="link"
-		size="icon"
-		className={`text-${color}-500 bg-${color}-50 group`}
-	>
-		{children}
-	</Button>
-);
-
 export default function ListOfRecipients({
 	recipients,
+	removeRecipientFromList,
+	updateRecipientFromList,
 }: {
 	recipients: Recipient[];
+	removeRecipientFromList: (email: string) => void;
+	updateRecipientFromList: (email: string, index: number) => void;
 }) {
 	return (
 		<Table>
@@ -54,17 +42,29 @@ export default function ListOfRecipients({
 						<TableCell className="truncate max-w-40 md:max-w-96">
 							{recipient.email}
 						</TableCell>
-						<TableCell className="truncate max-w-28 md:max-w-20">
+						<TableCell className="truncate max-w-28 md:max-w-96">
 							{recipient.addedAt}
 						</TableCell>
-						<TableCell className="flex gap-4 flex-col md:flex-row justify-end">
-							<IconButton color="blue">
-								<Edit className="md:h-4 md:w-4 group-hover:scale-125 transition duration-300" />
-							</IconButton>
-
-							<IconButton color="red">
-								<Trash2 className="md:h-4 md:w-4 group-hover:scale-125 transition duration-300" />
-							</IconButton>
+						<TableCell className="flex gap-4 flex-col md:flex-row justify-end items-end">
+							<UpdateRecipient
+								email={recipient.email}
+								indexOfRecipient={index}
+								updateRecipientAction={(
+									recipientEmail,
+									recipientIndex
+								) =>
+									updateRecipientFromList(
+										recipientEmail,
+										recipientIndex
+									)
+								}
+							/>
+							<DeleteRecipient
+								recipientEmail={recipient.email}
+								deleteRecipientAction={(recipientEmail) => {
+									removeRecipientFromList(recipientEmail);
+								}}
+							/>
 						</TableCell>
 					</TableRow>
 				))}
