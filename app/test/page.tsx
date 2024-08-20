@@ -47,11 +47,12 @@ export default function Test() {
 			throw new Error("Invalid time format");
 		}
 
-		if (period === "PM") {
+		if (period.toUpperCase() === "PM") {
 			parsedHours = parsedHours + 12;
 		}
 
 		const date = new Date();
+		date.setDate(date.getDate() + 1);
 		date.setHours(parsedHours, parsedMinutes, 0, 0);
 
 		return date.getTime();

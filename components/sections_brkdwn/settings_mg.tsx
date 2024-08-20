@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Settings, FlaskConical, Save } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import { fetchScriptureText } from "@/app/functions/scripiture";
 
 export default function SettingsManagement({
 	time,
@@ -62,26 +63,33 @@ export default function SettingsManagement({
 	}
 
 	function runTest() {
-		fetch("/api/send", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				firstName: "John",
-			}),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.error) {
-					toast.error("An error occurred, please try again");
-				} else {
-					toast.success("Test email sent successfully");
-				}
+		fetchScriptureText("2 Kings 8:16-29").then((data: any) => {
+			fetch("/api/send", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					passageRef: data.canonical,
+					passage: data.passages[0],
+				}),
 			})
-			.catch((error) => {
-				toast.error("An error occurred, please try again");
-			});
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.error) {
+						toast.error(
+							"An error occurred during sending email action, please try again"
+						);
+					} else {
+						toast.success("Test email sent successfully");
+					}
+				})
+				.catch((error) => {
+					toast.error(
+						"An error occurred while trying to send the email, please try again"
+					);
+				});
+		});
 	}
 
 	return (
