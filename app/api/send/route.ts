@@ -8,12 +8,13 @@ export async function POST(req: NextRequest) {
   const reqData = await req.json();
   const passageRef = reqData.passageRef;
   const passage = reqData.passage;
+  const recipients = reqData.recipients;
   const heading = 'Jehoram Reigns in Judah';
   
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Scripture <admin@mravaloarison.tech>',
-      to: ['haricovera@gmail.com'],
+      from: passageRef + ' <admin@mravaloarison.tech>',
+      to: recipients,
       subject: heading,
       react: EmailTemplate({ scripturePsg: passage, scriptureRef: passageRef }),
     });

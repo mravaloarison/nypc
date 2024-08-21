@@ -26,12 +26,19 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { fetchScriptureText } from "@/app/functions/scripiture";
 
+interface Recipient {
+	email: string;
+	addedAt: string;
+}
+
 export default function SettingsManagement({
 	time,
 	updateTime,
+	listOfRecipients,
 }: {
 	time: string;
 	updateTime: (time: string) => void;
+	listOfRecipients: Recipient[];
 }) {
 	const days = [
 		"Monday",
@@ -63,7 +70,18 @@ export default function SettingsManagement({
 		}
 	}
 
+	function getEmailsFromRecipients() {
+		return listOfRecipients.map((recipient) => recipient.email);
+	}
+
 	async function runTest() {
+		if (listOfRecipients.length === 0) {
+			toast.error(
+				"Please add at least one recipient before running the test"
+			);
+			return;
+		}
+
 		setIsLoading(true);
 
 		try {
@@ -108,6 +126,7 @@ export default function SettingsManagement({
 				body: JSON.stringify({
 					passageRef: scriptureData.canonical,
 					passage: scriptureData.passages[0],
+					recipients: getEmailsFromRecipients(),
 				}),
 			});
 

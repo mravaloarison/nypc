@@ -72,9 +72,7 @@ export default function Test() {
 
 	async function addNewRecipient() {
 		if (isOnTheListAlready(emailInserted)) {
-			toast.error("Error", {
-				description: "Recipient already on the list",
-			});
+			toast.error("Recipient already on the list");
 			return;
 		}
 
@@ -95,9 +93,7 @@ export default function Test() {
 
 			setEmailInserted("");
 		} else {
-			toast.error("Error", {
-				description: "Invalid email format!",
-			});
+			toast.error("Invalid email format!");
 			return;
 		}
 	}
@@ -111,16 +107,12 @@ export default function Test() {
 			return prev.filter((recipient) => recipient.email !== email);
 		});
 
-		toast.info("Great!", {
-			description: email + " was removed from the list",
-		});
+		toast.info(email + " was removed from the list");
 	}
 
 	function UpdateRecipient(email: string, index: number) {
 		if (isOnTheListAlready(email)) {
-			toast.info("FYI", {
-				description: email + " has not been updated.",
-			});
+			toast.info(email + " has not been updated.");
 			return;
 		}
 
@@ -130,9 +122,7 @@ export default function Test() {
 			return updatedList;
 		});
 
-		toast.success("Great!", {
-			description: email + " has been updated.",
-		});
+		toast.success(email + " has been updated.");
 	}
 
 	return (
@@ -181,6 +171,7 @@ export default function Test() {
 			<SettingsManagement
 				time={timeSet}
 				updateTime={(newTime) => setTimeSet(newTime)}
+				listOfRecipients={listOfRexipients}
 			/>
 		</main>
 	);
