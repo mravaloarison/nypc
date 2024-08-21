@@ -8,8 +8,6 @@ const ESV_API_KEY = process.env.ESV_API_KEY;
 const ESV_API_URL = "https://api.esv.org/v3/passage/text/";
 
 export async function fetchScriptureText(passage: string): Promise<any> {
-	console.log("Your API Key: ", process.env.ESV_API_KEY);
-	console.log("Your API key for Resend: ", process.env.RESEND_API_KEY);
 
 	if (!ESV_API_KEY) {
 		console.error("Error fetching scripture text: ESV_API_KEY not set.");
@@ -17,7 +15,6 @@ export async function fetchScriptureText(passage: string): Promise<any> {
 	}
 
 	try {
-		console.debug("Fetching scripture text from ESV API.");
 		const params: any = {
 			q: passage,
 			"indent-poetry": false,

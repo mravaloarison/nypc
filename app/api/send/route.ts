@@ -19,6 +19,8 @@ export async function POST(req: NextRequest) {
       react: EmailTemplate({ scripturePsg: passage, scriptureRef: passageRef }),
     });
 
+    console.log("to from the API: ", recipients);
+
     if (error) {
       return Response.json({ error }, { status: 500 });
     }

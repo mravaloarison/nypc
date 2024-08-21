@@ -11,6 +11,7 @@ import SettingsManagement from "@/components/sections_brkdwn/settings_mg";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { isValidLevel1 } from "../functions/validate_email";
+import { AutomatedEmails } from "../functions/automated_emails";
 
 interface Recipient {
 	email: string;
@@ -30,10 +31,25 @@ export default function Test() {
 		);
 
 		const interval = setInterval(() => {
+			if (hours === 0 && minutes === 0 && seconds === 0) {
+				const promise = new Promise((resolve) =>
+					setTimeout(() => {
+						AutomatedEmails(listOfRexipients);
+						resolve({
+							success_msg:
+								"🎉 QT successfully to all recipients!",
+						});
+					}, 2000)
+				);
+
+				toast.promise(promise, {
+					success: (res: any) => res.success_msg,
+					loading: "🎊 Sending automated QT to all recipients!",
+					error: "😢 Failed to send QT to all recipients!",
+				});
+			}
 			setCountDown(`${hours} hrs - ${minutes} min - ${seconds} sec`);
 		}, 1000);
-
-		// TODO: Send quotes to recipients when time is up
 
 		return () => clearInterval(interval);
 	});

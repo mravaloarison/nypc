@@ -75,14 +75,15 @@ export default function SettingsManagement({
 	}
 
 	async function runTest() {
+		setIsLoading(true);
+
 		if (listOfRecipients.length === 0) {
 			toast.error(
 				"Please add at least one recipient before running the test"
 			);
+			setIsLoading(false);
 			return;
 		}
-
-		setIsLoading(true);
 
 		try {
 			const quoteData = await fetchQuote();
