@@ -10,6 +10,7 @@ import ListOfRecipients from "@/components/sections_brkdwn/list_of_recipients";
 import SettingsManagement from "@/components/sections_brkdwn/settings_mg";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
+import { isValidLevel1 } from "../functions/validate_email";
 
 interface Recipient {
 	email: string;
@@ -69,18 +70,15 @@ export default function Test() {
 		return { hours, minutes, seconds };
 	}
 
-	function addNewRecipient() {
-		if (emailInserted === "") {
-			toast.warning("Hey, there!", {
-				description: "Recipient email is required",
-			});
-			return;
-		} else if (isOnTheListAlready(emailInserted)) {
+	async function addNewRecipient() {
+		if (isOnTheListAlready(emailInserted)) {
 			toast.error("Error", {
 				description: "Recipient already on the list",
 			});
 			return;
-		} else {
+		}
+
+		if (await isValidLevel1(emailInserted)) {
 			setListOfRecipients((prev) => {
 				return [
 					...prev,
@@ -91,11 +89,16 @@ export default function Test() {
 				];
 			});
 
-			toast.success("Great!", {
+			toast("Notification", {
 				description: emailInserted + " was added to the list!",
 			});
 
 			setEmailInserted("");
+		} else {
+			toast.error("Error", {
+				description: "Invalid email format!",
+			});
+			return;
 		}
 	}
 
@@ -108,7 +111,7 @@ export default function Test() {
 			return prev.filter((recipient) => recipient.email !== email);
 		});
 
-		toast.success("Great!", {
+		toast.info("Great!", {
 			description: email + " was removed from the list",
 		});
 	}
@@ -116,7 +119,7 @@ export default function Test() {
 	function UpdateRecipient(email: string, index: number) {
 		if (isOnTheListAlready(email)) {
 			toast.info("FYI", {
-				description: "There has been no changes",
+				description: email + " has not been updated.",
 			});
 			return;
 		}
@@ -128,7 +131,7 @@ export default function Test() {
 		});
 
 		toast.success("Great!", {
-			description: email + " has been updated",
+			description: email + " has been updated.",
 		});
 	}
 
