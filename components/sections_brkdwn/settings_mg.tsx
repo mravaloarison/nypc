@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Settings, FlaskConical, Save } from "lucide-react";
+import { Settings, FlaskConical, Save, LoaderPinwheel } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { fetchScriptureText } from "@/app/functions/scripiture";
@@ -45,6 +45,7 @@ export default function SettingsManagement({
 	];
 	const [defaultTime, setDefaultTime] = useState(time);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	function updatingTime() {
 		const timeFormat = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9] (AM|PM)$/;
@@ -62,34 +63,63 @@ export default function SettingsManagement({
 		}
 	}
 
-	function runTest() {
-		fetchScriptureText("2 Kings 8:16-29").then((data: any) => {
-			fetch("/api/send", {
+	async function runTest() {
+		setIsLoading(true);
+
+		try {
+			const quoteData = await fetchQuote();
+			const scriptureData = await fetchScriptureText(quoteData.quote);
+
+			await sendEmail(scriptureData);
+
+			toast.success("Test email sent successfully!");
+
+			setIsLoading(false);
+			setTimeout(() => {
+				setIsDialogOpen(false);
+			}, 500);
+		} catch (error) {
+			console.error(error);
+			toast.error(
+				"An error occurred while trying to send the email, please try again"
+			);
+			setIsLoading(false);
+		}
+	}
+
+	async function fetchQuote() {
+		try {
+			const response = await fetch("/api/scrap_living_life_with_ppteer");
+			if (!response.ok) throw new Error("Failed to fetch the quote");
+
+			return await response.json();
+		} catch (error: any) {
+			throw new Error(`Error fetching quote: ${error.message}`);
+		}
+	}
+
+	async function sendEmail(scriptureData: any) {
+		try {
+			const response = await fetch("/api/send", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					passageRef: data.canonical,
-					passage: data.passages[0],
+					passageRef: scriptureData.canonical,
+					passage: scriptureData.passages[0],
 				}),
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					if (data.error) {
-						toast.error(
-							"An error occurred during sending email action, please try again"
-						);
-					} else {
-						toast.success("Test email sent successfully");
-					}
-				})
-				.catch((error) => {
-					toast.error(
-						"An error occurred while trying to send the email, please try again"
-					);
-				});
-		});
+			});
+
+			if (!response.ok) throw new Error("Failed to send the email");
+
+			const data = await response.json();
+			if (data.error) throw new Error(data.error);
+
+			return data;
+		} catch (error: any) {
+			throw new Error(`Error sending email: ${error.message}`);
+		}
 	}
 
 	return (
@@ -113,7 +143,7 @@ export default function SettingsManagement({
 					<DialogDescription>
 						View today's quote{" "}
 						<a
-							href="https://www.brainyquote.com/quotes_of_the_day.html"
+							href="http://www.duranno.com/livinglife/qt/?OD=2024-08-20"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-blue-500 underline"
@@ -164,8 +194,13 @@ export default function SettingsManagement({
 							variant="link"
 							className="text-blue-500 bg-blue-50 group"
 							onClick={runTest}
+							disabled={isLoading}
 						>
-							<FlaskConical className="mr-2 md:h-4 md:w-4 group-hover:scale-125 transition duration-300" />
+							{isLoading ? (
+								<LoaderPinwheel className="mr-2 md:h-4 md:w-4 animate-spin" />
+							) : (
+								<FlaskConical className="mr-2 md:h-4 md:w-4 group-hover:scale-125 transition duration-300" />
+							)}
 							Just run a test
 						</Button>
 						<Button className="group" onClick={updatingTime}>
