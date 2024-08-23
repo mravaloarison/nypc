@@ -1,3 +1,5 @@
+[👁️ Live Demo](nypc-ae.netlify.app/test)
+
 # Automated email sending
 
 This app was originally a Python app that sends automated email to users. The issue was in needed to be run manually. Now that it is a web app, it can be run on a server and send emails automatically from there.
