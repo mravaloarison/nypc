@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer';
 import * as cheerio from 'cheerio';
 
+
 export async function GET() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
