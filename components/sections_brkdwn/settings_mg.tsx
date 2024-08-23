@@ -161,7 +161,7 @@ export default function SettingsManagement({
 				<DialogHeader>
 					<DialogTitle>Settings</DialogTitle>
 					<DialogDescription>
-						View today's quote{" "}
+						View today&apos;s quote{" "}
 						<a
 							href="http://www.duranno.com/livinglife/qt/?OD=2024-08-20"
 							target="_blank"

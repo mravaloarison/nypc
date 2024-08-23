@@ -28,7 +28,7 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
 			<Container style={container}>
 				<Section style={paragraphContent}>
 					<Hr style={hr} />
-					<Text style={heading}>🔔 Today's QT</Text>
+					<Text style={heading}>🔔 Today&apos;s QT</Text>
 					<Text style={paragraph}>
 						<b>{scriptureRef}</b>
 					</Text>
@@ -49,7 +49,7 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
 							margin: 0,
 						}}
 					>
-						© 2024 by Rava
+						&copy; 2024 by Rava
 					</Text>
 				</Section>
 			</Container>

@@ -19,7 +19,7 @@ const FormatedParagraph = ({ paragraph }: { paragraph: string }) => {
 					</span>
 				);
 			}
-			return part;
+			return <span key={index}>{part}</span>;
 		});
 	};
 
