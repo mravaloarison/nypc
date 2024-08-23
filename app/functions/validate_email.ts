@@ -14,7 +14,6 @@ export async function isValidLevel1(email: string) {
 export async function isValidLevel2(email: string): Promise<boolean> {
     const url = "https://www.emailvalidationapi.io/v1/validate";
 
-    console.log("API KEY IS: ", EMAIL_VALIDATION_API_KEY);
     try {
         const response = await fetch(url, {
             method: 'POST',

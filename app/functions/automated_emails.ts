@@ -37,7 +37,7 @@ export async function AutomatedEmails(recipients: Recipient[]) {
 
 async function fetchQuote() {
     try {
-        const response = await fetch("/api/scrap_living_life_with_ppteer");
+        const response = await fetch("/api/scrap_living_life");
         if (!response.ok) throw new Error("Failed to fetch the quote");
 
         return await response.json();
