@@ -23,7 +23,7 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
 }) => (
 	<Html>
 		<Head />
-		<Preview>Today's QT</Preview>
+		<Preview>Today&apos;s QT</Preview>
 		<Body style={main}>
 			<Container style={container}>
 				<Section style={paragraphContent}>
