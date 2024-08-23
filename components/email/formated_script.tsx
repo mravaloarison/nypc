@@ -32,8 +32,8 @@ const FormatedScripture: React.FC<Props> = ({ text }) => {
 	return (
 		<>
 			{paragraphs.map((paragraph, index) => (
-				<Text>
-					<FormatedParagraph key={index} paragraph={paragraph} />
+				<Text key={index}>
+					<FormatedParagraph paragraph={paragraph} />
 				</Text>
 			))}
 		</>

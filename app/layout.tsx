@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,8 @@ export default function RootLayout({
 			<body className={inter.className}>
 				<div className="flex md:min-h-screen flex-col justify-between py-4 w-full">
 					<nav className=" max-w-5xl mx-auto w-full flex justify-center items-center">
-						<img
+						<Image
+							alt="NYPC EM Logo"
 							className="w-20 h-auto"
 							src="https://www.nypcenglish.com/wp-content/uploads/2021/11/cropped-cropped-cropped-cropped-NYPC_EM_Logo.png"
 						/>
