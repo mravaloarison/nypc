@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   const passageRef = reqData.passageRef;
   const passage = reqData.passage;
   const recipients = reqData.recipients;
-  const heading = 'Jehoram Reigns in Judah';
+  const heading = "🔔 Today's QT";
   
   try {
     const { data, error } = await resend.emails.send({
@@ -18,8 +18,6 @@ export async function POST(req: NextRequest) {
       subject: heading,
       react: EmailTemplate({ scripturePsg: passage, scriptureRef: passageRef }),
     });
-
-    console.log("to from the API: ", recipients);
 
     if (error) {
       return Response.json({ error }, { status: 500 });

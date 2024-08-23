@@ -19,7 +19,19 @@ interface Recipient {
 }
 
 export default function Test() {
-	const [listOfRexipients, setListOfRecipients] = useState<Recipient[]>([]);
+	const defaultRecipientList: Recipient[] = [
+		{
+			email: "mravaloarison@gmail.com",
+			addedAt: new Date().toLocaleString(),
+		},
+		{
+			email: "haricovera@gmail.com",
+			addedAt: new Date().toLocaleString(),
+		},
+	];
+
+	const [listOfRexipients, setListOfRecipients] =
+		useState<Recipient[]>(defaultRecipientList);
 	const [emailInserted, setEmailInserted] = useState("");
 	const [countDown, setCountDown] = useState("");
 	const [timeSet, setTimeSet] = useState("9:00 AM");
