@@ -108,7 +108,7 @@ export default function SettingsManagement({
 
 	async function fetchQuote() {
 		try {
-			const response = await fetch("/api/scrap_living_life");
+			const response = await fetch("/api/scrap_with_puppeteer_only");
 			if (!response.ok) throw new Error("Failed to fetch the quote");
 
 			return await response.json();
