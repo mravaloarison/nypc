@@ -179,7 +179,7 @@ export default function SettingsManagement({
 							Every
 						</Label>
 						<Select defaultValue="everyday">
-							<SelectTrigger className="w-[240px] md:w-[275px]">
+							<SelectTrigger className="w-[250px] md:w-[275px]">
 								<SelectValue placeholder="select a day" />
 							</SelectTrigger>
 							<SelectContent>

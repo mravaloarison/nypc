@@ -1,4 +1,4 @@
-[👁️ Live Demo](nypc-ae.netlify.app/test)
+[👁️ Live Demo](https://main.dr80uwsjpr41h.amplifyapp.com/)
 
 # Automated email sending
 
