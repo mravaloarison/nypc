@@ -17,6 +17,15 @@ export default function Home() {
 			.finally(() => setLoading(false));
 	}
 
+	function scrapLLf_v2() {
+		setLoading(true);
+		fetch("/api/scrap_with_puppeteer_only")
+			.then((res) => res.json())
+			.then((data) => setScrappedData(data.quote))
+			.catch((error) => setScrappedData(error.error))
+			.finally(() => setLoading(false));
+	}
+
 	const [loading, setLoading] = useState(false);
 
 	return (
@@ -43,7 +52,15 @@ export default function Home() {
 					disabled={loading}
 					onClick={() => scrapLLf()}
 				>
-					Test scrapping living life API here
+					Scrap with puppeteer-core
+				</Button>
+
+				<Button
+					variant="secondary"
+					disabled={loading}
+					onClick={() => scrapLLf_v2()}
+				>
+					Scrap with puppeteer
 				</Button>
 				<Link
 					href="/test"
